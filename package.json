@@ -2,8 +2,8 @@
 {
   "name": "react-native-textedit-manipulation",
   "version": "1.0.1",
-  "description": "",
-  "homepage": "",
+  "description": "TextInput manipulation native methods",
+  "homepage": "https://github.com/SergeyA/react-native-textedit-manipulation#readme",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -10,6 +10,8 @@ const { TexteditManipulation } = NativeModules;
 
 const {
   insertText,
+  setText,
+  gettext,
   backSpace,
   doDelete,
   moveLeft,
@@ -18,6 +20,8 @@ const {
 
 export {
   insertText,
+  setText,
+  gettext,
   backSpace,
   doDelete,
   moveLeft,

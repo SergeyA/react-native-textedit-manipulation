@@ -69,6 +69,52 @@ public class RNTexteditManipulationModule extends ReactContextBaseJavaModule {
                 int end = Math.max(edit.getSelectionEnd(), 0);
                 edit.getText().replace(Math.min(start, end), Math.max(start, end),
                         text, 0, text.length());
+
+                start = Math.min(start + text.length(), edit.getText().length());
+
+                edit.setSelection(start, start);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void setText(final int tag, final String text) {
+        UiThreadUtil.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Activity activity = getCurrentActivity();
+                final ReactEditText edit = getEditById(tag);
+                if (edit == null) {
+                    return;
+                }
+
+                int end = edit.getText().length();
+                edit.getText().replace(0, end, text, 0, text.length());
+
+                edit.setSelection(text.length(), text.length());
+            }
+        });
+    }
+
+    @ReactMethod
+    public void getText(final int tag, final Promise promise) {
+        UiThreadUtil.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    final Activity activity = getCurrentActivity();
+                    final ReactEditText edit = getEditById(tag);
+                    if (edit == null) {
+                        promise.reject("EditText not found");
+                        return;
+                    }
+
+                    promise.resolve(edit.getText().toString());
+
+                } catch(Throwable t) {
+                    promise.reject(t);
+                }
             }
         });
     }
@@ -89,7 +135,7 @@ public class RNTexteditManipulationModule extends ReactContextBaseJavaModule {
                 if (start != end) {
                     edit.getText().delete(start, end);
                 } else if (start > 0){
-                    edit.getText().delete(start - 1, end);
+                    edit.getText().delete(start - 1, start);
                 }
             }
         });
@@ -110,8 +156,8 @@ public class RNTexteditManipulationModule extends ReactContextBaseJavaModule {
                 int end = Math.max(edit.getSelectionEnd(), 0);
                 if (start != end) {
                     edit.getText().delete(start, end);
-                } else if (start > 0){
-                    edit.getText().delete(start, end+1);
+                } else if (end < edit.getText().length() - 1){
+                    edit.getText().delete(start, end + 1);
                 }
             }
         });
@@ -132,7 +178,7 @@ public class RNTexteditManipulationModule extends ReactContextBaseJavaModule {
                 int end = Math.max(edit.getSelectionEnd(), 0);
                 if (start != end) {
                     edit.setSelection(start, start);
-                } else {
+                } else if (start > 0) {
                     edit.setSelection(start - 1, start - 1);
                 }
             }
@@ -154,7 +200,7 @@ public class RNTexteditManipulationModule extends ReactContextBaseJavaModule {
                 int end = Math.max(edit.getSelectionEnd(), 0);
                 if (start != end) {
                     edit.setSelection(end, end);
-                } else if (start > 0){
+                } else if (end < edit.getText().length() - 1){
                     edit.setSelection(end + 1, end + 1);
                 }
             }

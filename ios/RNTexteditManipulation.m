@@ -33,7 +33,7 @@ RCT_EXPORT_METHOD(setText:(nonnull NSNumber *)reactTag withText:(NSString*)text)
     UITextPosition *secondCharacterPosition = [view endOfDocument];
     UITextRange *range = [view textRangeFromPosition:firstCharacterPosition toPosition:secondCharacterPosition];
 
-  [view replaceRange:range withText:@""];
+  [view replaceRange:range withText:text];
 }
 
 RCT_EXPORT_METHOD(backSpace:(nonnull NSNumber *)reactTag) {
